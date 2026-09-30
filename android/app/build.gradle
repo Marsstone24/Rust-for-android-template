@@ -1,12 +1,12 @@
 plugins { id 'com.android.application' }
 
 android {
-    namespace 'com.marsstone.rust_android'
+    namespace 'com.example.rust_android'
     compileSdk 35
-    buildToolsVersion "36.0.0"
+    buildToolsVersion "35.0.0"
 
     defaultConfig {
-        applicationId "com.marsstone.rust_android"
+        applicationId "com.example.rust_android"
         minSdk 23
         targetSdk 35
         versionCode 1
@@ -14,23 +14,24 @@ android {
         ndk { abiFilters "arm64-v8a" }
     }
 
-    signingConfigs {
-        release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+    // Signing values come from ~/.gradle/gradle.properties (created by install.sh)
+    if (project.hasProperty('RELEASE_STORE_FILE')) {
+        signingConfigs {
+            release {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
             minifyEnabled false
-        }
-
-        debug {
-            applicationIdSuffix ".debug"
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }

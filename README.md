@@ -1,4 +1,4 @@
 # rust-android
 
 ## Important Commands
-**./gradlew assembleDebug** for compile
+**./compile - custom bash script for compilation

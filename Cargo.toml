@@ -3,18 +3,8 @@ name = "rust-android"
 version = "0.1.0"
 edition = "2024"
 
-[lib]
-name = "rust_android"
-crate-type = ["cdylib"]
-
-[profile.release]
-lto = false
-strip = false
-
-[profile.dev]
-lto = false
-strip = false
-
 [dependencies]
 macroquad = "0.4.16"
-miniquad = { version = "0.4.11", features = ["log-impl"] }
+
+[lib]
+crate-type = ["cdylib"]

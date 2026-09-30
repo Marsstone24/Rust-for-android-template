@@ -261,7 +261,6 @@ name = "rust-android"
 version = "0.1.0"
 dependencies = [
  "macroquad",
- "miniquad",
 ]
 
 [[package]]

@@ -1,4 +1,4 @@
-package com.marsstone.rust_android;
+package com.example.rust_android;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
