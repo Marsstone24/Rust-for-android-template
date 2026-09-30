@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -e
+
+DEBUG=false
+RELEASE=false
+
+help() {
+    printf "\n%s\n" "USAGE:"
+    printf "%s\n\n" "compile [<options>][<option>]"
+    printf "%s\n" "Standard Options:"
+    printf "%s\n" "-h | --help --- Show this list"
+    printf "%s\n" "-d | --debug --- compile debug apk = default"
+    printf "%s\n\n" "-release | --release --- compile release apk"
+}
+
+ARGS=()
+for arg in "$@"; do
+    case "$arg" in
+        --help)     ARGS+=("-h") ;;
+        --debug)    ARGS+=("-d") ;;
+        --release)  ARGS+=("-r") ;;
+        *)          ARGS+=("$arg") ;;
+    esac
+done
+
+set -- "${ARGS[@]}"
+
+
+while getopts "hdr" opt; do
+    case ${opt} in
+        h)
+
+            help
+            exit 0
+            ;;
+        d)
+            DEBUG=true
+            ;;
+        r)
+            RELEASE=true
+            ;;
+        *)
+            echo -e "Invalid option given"
+            echo -e "See help with -h or --help"
+            exit 1
+            ;;
+    esac
+done
+
+if $DEBUG; then
+    cargo ndk -t arm64-v8a -o android/app/src/debug/jniLibs build
+    cd android && ./gradlew assembleDebug && cd ..
+fi
+if $RELEASE; then
+    cargo ndk -t arm64-v8a -o android/app/src/release/jniLibs build --release
+    cd android && ./gradlew assembleRelease
+fi
